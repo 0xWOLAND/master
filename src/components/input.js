@@ -17,6 +17,8 @@ class input extends React.Component{
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.validateEmail = this.validateEmail.bind(this);
+        this.validateName = this.validateName.bind(this);
     }
 
     handleChange(event){
@@ -26,18 +28,40 @@ class input extends React.Component{
     handleClose(){
         this.setState({show: false})
     }
+
+    validateEmail(email) 
+    {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+    validateName(name){
+        var re = /^(([A-Za-z]+[\-\']?)*([A-Za-z]+)?\s)+([A-Za-z]+[\-\']?)*([A-Za-z]+)?$/;
+        return re.test(name);
+    }
     handleSubmit(event){
         console.log(this.state);
-        db.collection('info').add({
-            'name': this.state.name,
-            'email':this.state.email,
-            'type_of_user': this.state.type_of_user
-        })
-        this.setState({show: true});
-        console.log(this.state);
-        document.getElementById("container").remove();
-        event.preventDefault();
+        if(this.validateEmail(this.state.email) && this.validateName(this.state.name)){
+            db.collection('info').add({
+                'name': this.state.name,
+                'email':this.state.email,
+                'type_of_user': this.state.type_of_user
+            })
+            this.setState({show: true});
+            console.log(this.state);
+            document.getElementById("container").remove();
+            event.preventDefault();
+        }
+        else if(!this.validateEmail(this.state.email) && !this.validateName(this.state.name)){
+            alert("Please enter a valid email (Ex. testuser@catalystmarketplace.com) and name (Ex. John Doe)");
+        }
+        else if(!this.validateEmail(this.state.email)){
+            alert("Please enter a valid email (Ex. testuser@catalystmarketplace.com)");
+        }
+        else{
+            alert("Please enter first and last name (Ex. John Doe)");
+        }
     }
+        
     render() {
         return (
         

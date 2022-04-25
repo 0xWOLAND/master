@@ -1109,10 +1109,9 @@ input[type=checkbox] + label:before{
   /* full logo HD 1 */
 
 position: relative;
-
-  width: 100%;
+  /* width: 100%; */
   margin: 0 auto;
-  height: 73px;
+  /* height: 73px; */
 margin-bottom: 50px;
 top: 64px;
 
